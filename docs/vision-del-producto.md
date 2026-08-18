@@ -4,10 +4,14 @@
 **Fecha de la última versión:** 18 de agosto de 2026
 **Repositorio:** https://github.com/LaloGH06/Sistema-de-tickets-industrial](https://github.com/LaloGH06/Sistema-de-tickets-industrial)
 
+---
+
 ## 1. Descripción del sistema
 
 **Nombre del sistema:** Plataforma de Gestión de Tickets
 **Descripción:** Es una plataforma que ayuda a la empresa a registrar, organizar y dar seguimiento a los reportes de fallas o necesidades de mantenimiento (folios). Funciona como un centro de control donde cualquier empleado puede reportar un problema, asignarlo al área correspondiente y, lo más importante, supervisar cuánto tiempo tardan en solucionarlo mediante gráficas y medidores de tiempo.
+
+---
 
 ## 2. Problema y usuarios
 
