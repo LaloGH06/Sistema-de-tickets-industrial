@@ -2,7 +2,7 @@
 
 **Autor:** Jorge Eduardo García Hernández
 **Fecha de la última versión:** 18 de agosto de 2026
-**Repositorio:** https://github.com/LaloGH06/Sistema-de-tickets-industrial](https://github.com/LaloGH06/Sistema-de-tickets-industrial)
+**Repositorio:** https://github.com/LaloGH06/Sistema-de-tickets-industrial
 
 ---
 
