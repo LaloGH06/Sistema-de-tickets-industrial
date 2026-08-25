@@ -32,26 +32,28 @@ El Administrador quiere tener un control estricto y total sobre la información,
 
 ## 3. Alcance
 
-*Instrucción: lo que escribes en "fuera del alcance" es lo que después evita que el proyecto crezca sin control. Sé específico: "reportes" no dice nada, "reportes de ventas mensuales exportables a PDF" sí.*
-
 ### Dentro del alcance
 
--
--
--
--
+- Registra de folios con descripción técnica, nivel de prioridad, área asignada, límite de tiempo  y archivos adjuntos.
+- Reasigna el ticket a otra coordinación o área operativa cuando el emisor se equivoca al clasificarlo en el levantamiento.
+- Almacena informes de solución técnica junto con fotografías de evidencia cargadas por el personal ejecutor.
+- Reabre folios resueltos marcándolos como No Aceptado, guardando notas de corrección y archivos de guía para el personal.
+- Grafica en tiempo real la cantidad de folios activos y resueltos desglosados por gerencia y coordinación en el tablero general.
 
 ### Explícitamente fuera del alcance
 
--
--
--
+- No procesa pagos, compras de refacciones ni cotizaciones de materiales requeridos para atender el folio.
+- No envía notificaciones por SMS ni mensajes de WhatsApp al personal en campo las alertas ocurren únicamente dentro de la plataforma web.
+- No registra asistencia laboral, checador biométrico ni cálculo de nómina de los colaboradores registrados en el módulo de personal.
 
 **Por qué queda fuera:**
 
-*Instrucción: para al menos una de las exclusiones, explica la razón. Puede ser tiempo, complejidad, o que no aporta al problema central.*
+Sobre la exclusión de compras y pagos:
+Queda fuera porque el propósito del sistema es la comunicación técnica y el cumplimiento de tiempos de respuesta en planta. Integrar pagos o compras involucraría facturación fiscal y conexión con sistemas bancarios, lo cual duplicaría la complejidad del proyecto y desviaría el objetivo central de resolución de incidencias.
 
----
+### Funcionalidad futura (fuera de alcance actual)
+
+- **Diagnóstico predictivo de fallas con IA:** Analizar mediante visión por computadora la fotografía de la falla adjunta en el ticket para sugerir automáticamente la pieza a reparar y el técnico más capacitado para atenderla.
 
 ## 4. Tipo de sistema y restricciones
 
