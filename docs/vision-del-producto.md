@@ -87,7 +87,7 @@ Porque su objetivo es registrar, consultar y gestionar el flujo de información 
 
 1. **Doble Validación de Cierre:** Un ticket no concluye cuando el área técnica reporta la solución ; requiere forzosamente que el emisor original lo valide y apruebe como *Liberado* o lo rechace como *No Aceptado* con notas de corrección.
 2. **Permiso Explícito de Levantamiento:** Estar registrado como colaborador en la plataforma no otorga automáticamente la facultad de crear tickets; se requiere la activación del permiso .
-3. **Reasignación Preservando Historial:** Si un reporte se clasificó erróneamente en el levantamiento, puede reasignarse a otra coordinación sin anular el folio, sin reiniciar su SLA y conservando la trazabilidad previa.
+3. **Reasignación Preservando Historial:** Si un reporte se clasificó erróneamente en el levantamiento, puede reasignarse a otra coordinación sin anular el folio, sin reiniciar su plazo de vencimiento y conservando la trazabilidad previa.
 
 ---
 
