@@ -64,13 +64,13 @@ Queda fuera porque el propósito del sistema es la comunicación técnica y el c
 
 **Tipo de sistema:**
 
-Sistema de información (con arquitectura Web)
+Sistema de información y software a la medida
 
 *(De información · Embebido · Crítico · Web y SaaS · De datos y análisis)*
 
 **Por qué es de ese tipo:**
 
-Porque su objetivo es registrar, consultar y gestionar el flujo de información de órdenes de trabajo e incidencias entre las distintas gerencias y áreas de la planta industrial, donde la complejidad principal radica en modelar y hacer cumplir las reglas del proceso de negocio y el ciclo de vida del ticket.
+Porque su objetivo es registrar, consultar y gestionar el flujo de información de órdenes de trabajo e incidencias entre las distintas gerencias y áreas de la planta industrial, donde la complejidad principal radica en modelar y hacer cumplir las reglas del proceso de negocio y el ciclo de vida del ticket las cuales son cosas que el dueño de la empresa especifica a su medida.
 
 **Atributos de calidad que impone:**
 
