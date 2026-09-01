@@ -56,58 +56,66 @@ Queda fuera porque el propósito del sistema es la comunicación técnica y el c
 - **Diagnóstico predictivo de fallas con IA:** Analizar mediante visión por computadora la fotografía de la falla adjunta en el ticket para sugerir automáticamente la pieza a reparar y el técnico más capacitado para atenderla.
 
 ## 4. Tipo de sistema y restricciones
+## 4. Tipo de sistema y restricciones
 
 *Instrucción: identifica de qué tipo es tu sistema y qué te obliga a garantizar ese tipo. Un sistema de información y un sistema crítico no se diseñan igual.*
 
 **Tipo de sistema:**
 
+Sistema de información (con arquitectura Web)
+
 *(De información · Embebido · Crítico · Web y SaaS · De datos y análisis)*
 
 **Por qué es de ese tipo:**
+
+Porque su objetivo es registrar, consultar y gestionar el flujo de información de órdenes de trabajo e incidencias entre las distintas gerencias y áreas de la planta industrial, donde la complejidad principal radica en modelar y hacer cumplir las reglas del proceso de negocio y el ciclo de vida del ticket.
 
 **Atributos de calidad que impone:**
 
 | Atributo | Por qué importa en mi caso | Qué pasa si no se cumple |
 |---|---|---|
-| | | |
-| | | |
-| | | |
+| Trazabilidad | Debe existir un registro inalterable de quién levantó el reporte, qué usuario lo atendió con evidencia y quién autorizó el cierre. | No se pueden deslindar responsabilidades ni auditar tiempos de respuesta y cuellos de botella. |
+| Control de acceso | Solo el emisor o Administrador puede liberar/rechazar folios, y los colaboradores solo pueden atender reportes de su área los cuales les hayan sido asignada. | Usuarios no autorizados podrían cerrar órdenes ajenas inconclusas o manipular folios indebidamente. |
+| Integridad de los datos | El estado del ticket, los archivos adjuntos y los plazos de vencimiento deben mantenerse consistentes. | Las métricas de desempeño por gerencia y los informes de auditoría mostrarán datos erróneos o contradictorios. |
+| Usabilidad | El personal operativo necesita registrar, atender y validar reportes de manera ágil y sin ambigüedades. | Los colaboradores abandonan la plataforma y regresan a canales informales (papel o mensajes). |
 
 **Reglas de negocio que ya identifiqué:**
 
 *Instrucción: reglas que no son obvias desde fuera y que alguien que conoce el dominio tendría que explicarte. Si no encuentras ninguna, tu caso puede ser demasiado simple.*
 
-1.
-2.
-3.
-
----
-
+1. **Doble Validación de Cierre:** Un ticket no concluye cuando el área técnica reporta la solución ; requiere forzosamente que el emisor original lo valide y apruebe como *Liberado* o lo rechace como *No Aceptado* con notas de corrección.
+2. **Permiso Explícito de Levantamiento:** Estar registrado como colaborador en la plataforma no otorga automáticamente la facultad de crear tickets; se requiere la activación del permiso .
+3. **Reasignación Preservando Historial:** Si un reporte se clasificó erróneamente en el levantamiento, puede reasignarse a otra coordinación sin anular el folio, sin reiniciar su SLA y conservando la trazabilidad previa.
 ## 5. Ciclo de vida elegido
 
 *Instrucción: este apartado se trabaja en la semana 3, después de ver los modelos de desarrollo. La justificación pesa más que la elección: no hay un modelo correcto, hay uno defendible para tu caso.*
 
 **Modelo elegido:**
 
+Desarrollo Ágil 
+
 **Por qué le conviene a este proyecto:**
 
 *Instrucción: argumenta con las características reales de tu caso. Estabilidad de los requisitos, disponibilidad del cliente, nivel de riesgo, tamaño del equipo, frecuencia de entregas esperada.*
 
-### Alternativas descartadas
-
-**Alternativa 1:**
-
-*Por qué la descarté:*
-
-**Alternativa 2:**
-
-*Por qué la descarté:*
+1. **Disponibilidad y retroalimentación directa del cliente (Jefe/Dirección):** El usuario final estuvo presente y disponible de forma continua. Necesitaba ver avances funcionales rápidos sobre pantallas reales para entender el flujo y solicitar ajustes sobre la marcha (como el cambio de terminología, o la necesidad de reasignar folios mal clasificados).
+2. **Requisitos emergentes y cambiantes:** Aunque el objetivo general era claro (atender incidencias), las reglas de negocio finas no estaban escritas en un manual formal previo; se fueron descubriendo y refinando al interactuar con el sistema funcional en cada entrega.
+3. **Tamaño del equipo y frecuencia de entregas:** Al ser un equipo pequeño de desarrollo (solo yo), se requería un ciclo de entrega corto (días/semanas) que produjera software funcional inmediato (incrementos), reduciendo la burocracia documental y enfocándose en valor tangible para la planta.
+4. **Nivel de riesgo de negocio:** El riesgo no era técnico ni de colapso de infraestructura, sino de adopción: si la interfaz resultaba confusa para los operarios o no reflejaba la jerarquía real de la fábrica, el sistema sería rechazado. Las iteraciones visuales mitigaron este riesgo.
 
 ---
 
-## Antes de entregar
+### Alternativas descartadas
 
-Reviso que el documento cumpla lo siguiente:
+**Alternativa 1:** Cascada 
+
+*Por qué la descarté:*  
+Exige que el 100% de los requisitos estén cerrados y congelados desde el primer día antes de programar. En nuestro caso hubiera sido un fracaso: el cliente no conocía todos los detalles específicos de validaciones y estados al inicio, y no podíamos esperar meses hasta el final del proyecto para mostrarle una primera versión que pudiera no ajustarse a la dinámica de la planta.
+
+**Alternativa 2:** Modelo V
+
+*Por qué la descarté:*  
+Está diseñado para sistemas altamente regulados o críticos con consecuencias severas (como aviación, automotriz o equipo médico) donde cada fase de diseño debe empatar con una fase de prueba formal y documental antes de pasar a la siguiente. Nuestro proyecto es un sistema de información de gestión interna donde el rigor burocrático y la sobrecarga de pruebas formales del Modelo V hubieran frenado la velocidad de entrega que requería la jefatura.
 
 - [ ] La descripción del apartado 1 se entiende sin ser del área
 - [ ] Hay al menos dos tipos de usuario con necesidades distintas
