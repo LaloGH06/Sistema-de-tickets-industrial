@@ -97,7 +97,8 @@ Porque su objetivo es registrar, consultar y gestionar el flujo de información 
 
 **Modelo elegido:**
 
-Desarrollo Ágil 
+evolutivo
+
 
 **Por qué le conviene a este proyecto:**
 
