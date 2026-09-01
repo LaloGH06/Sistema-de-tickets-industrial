@@ -55,7 +55,9 @@ Queda fuera porque el propósito del sistema es la comunicación técnica y el c
 
 - **Diagnóstico predictivo de fallas con IA:** Analizar mediante visión por computadora la fotografía de la falla adjunta en el ticket para sugerir automáticamente la pieza a reparar y el técnico más capacitado para atenderla.
 
-## 4. Tipo de sistema y restricciones
+---
+
+
 ## 4. Tipo de sistema y restricciones
 
 *Instrucción: identifica de qué tipo es tu sistema y qué te obliga a garantizar ese tipo. Un sistema de información y un sistema crítico no se diseñan igual.*
@@ -86,6 +88,9 @@ Porque su objetivo es registrar, consultar y gestionar el flujo de información 
 1. **Doble Validación de Cierre:** Un ticket no concluye cuando el área técnica reporta la solución ; requiere forzosamente que el emisor original lo valide y apruebe como *Liberado* o lo rechace como *No Aceptado* con notas de corrección.
 2. **Permiso Explícito de Levantamiento:** Estar registrado como colaborador en la plataforma no otorga automáticamente la facultad de crear tickets; se requiere la activación del permiso .
 3. **Reasignación Preservando Historial:** Si un reporte se clasificó erróneamente en el levantamiento, puede reasignarse a otra coordinación sin anular el folio, sin reiniciar su SLA y conservando la trazabilidad previa.
+
+---
+
 ## 5. Ciclo de vida elegido
 
 *Instrucción: este apartado se trabaja en la semana 3, después de ver los modelos de desarrollo. La justificación pesa más que la elección: no hay un modelo correcto, hay uno defendible para tu caso.*
