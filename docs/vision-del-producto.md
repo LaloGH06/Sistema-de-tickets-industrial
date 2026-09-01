@@ -15,7 +15,7 @@
 
 ## 2. Problema y usuarios
 
-**El problema:** Las solicitudes de mantenimiento o reportes de fallas se pierden, no se sabe quién las está atendiendo ni cuánto tiempo toman en resolverse, lo que genera retrasos y falta de información clara para evaluar el desempeño del personal.
+**El problema:** Las solicitudes de mantenimiento o reportes se pierden, no se sabe quién las está atendiendo ni cuánto tiempo toman en resolverse, lo que genera retrasos y falta de información clara para evaluar el desempeño del personal.
 **Cómo se resuelve hoy sin el sistema:** Los empleados reportan los problemas de manera informal (por mensajes, llamadas o libretas), sin una forma estandarizada de exigir evidencia de que el trabajo realmente se hizo o de medir los tiempos de respuesta.
 
 **Usuarios del sistema:**
