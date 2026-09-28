@@ -1,0 +1,58 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="dipropol-uc-v2" name="Casos de Uso Dipropol">
+    <mxGraphModel dx="2213" dy="765" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="650" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="boundary" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1;fontSize=14;spacingTop=10;" value="Sistema de Gestión de Tickets" vertex="1">
+          <mxGeometry height="560" width="480" x="220" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="actorAdmin" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="Administrador / Dirección" vertex="1">
+          <mxGeometry height="60" width="30" x="40" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="actorOperativo" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="Usuario Operativo" vertex="1">
+          <mxGeometry height="60" width="30" x="770" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="uc1" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Levantar orden de trabajo" vertex="1">
+          <mxGeometry height="60" width="260" x="330" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="uc2" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Atender solicitud asignada" vertex="1">
+          <mxGeometry height="60" width="260" x="330" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="uc3" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Entregar solución con evidencia&#xa;(foto/documento)" vertex="1">
+          <mxGeometry height="60" width="260" x="330" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="uc4" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Validar y liberar ticket" vertex="1">
+          <mxGeometry height="60" width="260" x="330" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="uc5" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="Reasignar folio" vertex="1">
+          <mxGeometry height="60" width="260" x="330" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="actorAdmin" style="endArrow=none;html=1;" target="uc1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="actorOperativo" style="endArrow=none;html=1;" target="uc1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="actorOperativo" style="endArrow=none;html=1;" target="uc2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="actorOperativo" style="endArrow=none;html=1;" target="uc3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="actorAdmin" style="endArrow=none;html=1;" target="uc4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="actorOperativo" style="endArrow=none;html=1;" target="uc4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="actorAdmin" style="endArrow=none;html=1;" target="uc5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="actorOperativo" style="endArrow=none;html=1;" target="uc5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
