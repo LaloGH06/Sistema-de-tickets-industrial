@@ -1,15 +1,3 @@
-He revisado tu documento comparándolo paso a paso con la "Guía de redacción de requisitos". Encontré varias áreas de mejora para cumplir estrictamente con el estándar que te solicitan:
-
-1. **Nomenclatura de IDs**: Los requisitos funcionales deben tener 3 dígitos (ej. `RF-001`) y los no funcionales deben incluir la categoría (ej. `RNF-REN-001`).
-2. **Fórmula de redacción (RF)**: Se eliminaron palabras como "permitirá". La guía exige la estructura: `<El sistema> <verbo firme> <objeto> <condición>`. Para cumplir con tu petición de usar infinitivos, los **Nombres de los requisitos** se han puesto todos en infinitivo, mientras que la descripción respeta la regla del verbo firme en presente estipulada en tu guía.
-3. **Una sola idea**: Tu RF-03 original unía dos cosas ("Doble Visto Bueno y Reapertura"). La regla 4 dice "Si aparece una 'y' que une dos comportamientos distintos, son dos requisitos". Lo he separado.
-4. **Prioridades**: Se cambiaron "Alta/Media" por los términos obligatorios de la guía: "Imprescindible, Importante o Deseable".
-5. **Tabla RNF**: Tu tabla original no tenía los campos correctos. La he reconstruido con las columnas que exige la guía (Origen, Prioridad, Por qué importa, Afecta a) y separando la descripción de la métrica.
-6. **Orígenes**: Se especificó si es una entrevista confirmada, documento o supuesto propio (Regla 6).
-
-Aquí tienes el código Markdown corregido listo para copiar y pegar (sin las etiquetas de cita):
-
-```markdown
 # 2. Especificación de Requisitos
 
 **Autor:** Jorge Eduardo García Hernández
