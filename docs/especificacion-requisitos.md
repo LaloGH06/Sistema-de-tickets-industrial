@@ -1,31 +1,22 @@
 # Especificación de requisitos
 
-**Sistema:** Sistema de Gestión de Tickets Industrial
+**Sistema:** Sistema de tickets industriales
 **Autor:** Jorge Eduardo García Hernández
-**Versión:** 2.1
-**Fecha de la última actualización:** 28 de septiembre de 2026
+**Versión:** 1.3
+**Fecha de la última actualización:** 29 de septiembre de 2026
 
 ---
 
 ## 1. Propósito y alcance
 
 **Propósito del documento:**
-Este documento define de forma precisa, comprobable y detallada los requisitos funcionales y no funcionales de la plataforma de tickets industrial. Está dirigido al equipo de desarrollo, a la dirección de la planta y a la dupla evaluadora.
+El Sistema de tickets industriales es una plataforma digital diseñada para centralizar, organizar y auditar las órdenes de trabajo y comunicados internos de una planta de producción industrial. Funciona como un centro de control donde cualquier empleado puede reportar un problema, asignarlo y supervisar los tiempos de resolución mediante métricas de SLA.
 
 **Alcance del sistema:**
-El sistema abarca la gestión operativa, comunicación formal y auditorías mediante:
-*   Autenticación y cierre de sesión de personal operativo y administrativo.
-*   Registro de órdenes de trabajo (tickets) con asignación de folio único, área, prioridad y descripción.
-*   Reasignación de tickets entre departamentos conservando el historial de transferencia.
-*   Carga y validación obligatoria de evidencia (fotográfica o documento) para permitir el cambio de estado a "Resuelto".
-*   Mecanismo de "doble visto bueno" que permite al emisor original cerrar el ticket o rechazarlo, reabriendo el caso y reiniciando las métricas de SLA.
-*   Visualización en tiempo real de estados y métricas de resolución en un tablero general (Dashboard).
+Registro de folios con descripción y prioridad, reasignación de tickets conservando el historial, carga obligatoria de evidencia (fotográfica y documental), validación de "doble visto bueno", y visualización en tiempo real de métricas en un tablero general.
 
 **Fuera del alcance:**
-*   Procesamiento de pagos de nómina o destajo.
-*   Gestión de compras, cotizaciones de refacciones o conexión con portales bancarios.
-*   Envío de notificaciones mediante plataformas externas como SMS o WhatsApp.
-*   Fungir como checador biométrico o sistema de control de asistencia del personal.
+El sistema no procesa pagos de nómina, no gestiona compras o cotizaciones de refacciones, no envía notificaciones por SMS/WhatsApp, y no funge como checador biométrico de asistencia.
 
 ---
 
@@ -33,11 +24,11 @@ El sistema abarca la gestión operativa, comunicación formal y auditorías medi
 
 | Usuario | Qué hace hoy sin el sistema | Qué espera del sistema |
 | :--- | :--- | :--- |
-| **Administrador / Dirección** | Recibe reportes verbales o notas físicas incompletas. No tiene forma de medir cuánto tiempo real toma resolver una falla. | Supervisar el cumplimiento de los SLA en un tablero en vivo. Auditar los tiempos de respuesta por departamento y asegurar que los técnicos no cierren reportes sin haber hecho el trabajo real. |
-| **Usuario Operativo (Emisor / Receptor)** | Usa WhatsApp personal para reportar fallas, los mensajes se pierden y los problemas reinciden. Si le falta material, tiene que buscar físicamente al de almacén. | Rapidez para levantar reportes desde su dispositivo móvil sin quitarse el equipo de seguridad. Capacidad de reasignar tareas a otras áreas con un par de toques y adjuntar fotos directamente para amparar su trabajo. |
+| **Usuario Operativo (Emisor/Receptor)** | Reporta fallas por grupos de WhatsApp, llamadas o verbalmente. Las tareas se quedan varadas si el encargado no está en planta. | Poder levantar reportes rápidos desde su celular, adjuntar evidencia fotográfica de forma sencilla y reasignar tareas a otras áreas sin perder el folio. |
+| **Administrador / Dirección** | Revisa chats buscando "palomitas azules" para saber quién leyó instrucciones. Recibe trabajos verbalmente como "terminados" pero incompletos. | Ver un tablero con estadísticas de SLA, auditar los tiempos reales de respuesta, y asegurar que los trabajos tengan evidencia comprobable antes de cerrarse. |
 
 **Conflictos identificados entre usuarios:**
-*   **Auditoría estricta vs. Agilidad en piso:** La dirección requiere documentación detallada de cada trabajo realizado, pero el personal operativo rechaza llenar formularios largos porque interrumpe su labor física. **Solución:** Se implementó la carga de evidencia fotográfica como requerimiento central, sustituyendo la captura exhaustiva de texto por pruebas visuales de un solo toque.
+El Administrador quiere un control estricto para sus métricas. El Operativo quiere rapidez y suele equivocarse al asignar el área. Se resolvió implementando la función de "Reasignar Folio" (conservando historial) en lugar de obligar al operativo a borrar y empezar de cero.
 
 ---
 
@@ -58,99 +49,97 @@ El sistema abarca la gestión operativa, comunicación formal y auditorías medi
 | **RF-009** | Cerrar ticket validado | Imprescindible | Regla de negocio de "Doble visto bueno" |
 | **RF-010** | Reasignar folio entre áreas | Importante | Entrevista (Descubrimiento: Ausencias y dependencias) |
 
----
-
 ### 3.2 Fichas
 
-#### RF-001 · Iniciar sesión en la plataforma
+**RF-001 - Iniciar sesión en la plataforma**
 | Campo | Contenido |
 | :--- | :--- |
-| **Descripción** | El sistema autentica al usuario mediante sus credenciales (correo y contraseña) para otorgarle acceso a la plataforma según su rol (Administrador u Operativo). |
-| **Origen** | Derivado de la necesidad de identificar al autor y responsable de cada ticket. |
+| **Descripción** | El sistema autentica las credenciales del usuario para permitir el acceso a la plataforma según su rol asignado. |
+| **Origen** | Derivado de la necesidad de identificar al responsable. |
 | **Prioridad** | Imprescindible |
-| **Criterio de aceptación** | Al ingresar credenciales válidas, el sistema inicia la sesión y redirige al Dashboard. Si son incorrectas, despliega el mensaje "Credenciales inválidas" y bloquea el acceso. |
-| **Relacionado con** | RF-002, RF-004 |
+| **Criterio de aceptación** | - Al ingresar un usuario y contraseña válidos, el sistema inicia la sesión en la interfaz correspondiente a su rol.<br>- Si las credenciales son incorrectas, el sistema bloquea el acceso.<br>- Al bloquear el acceso por credenciales incorrectas, el sistema despliega el mensaje "Credenciales inválidas". |
+| **Relacionado con** | RF-002 |
 
-#### RF-002 · Cerrar sesión en la plataforma
+**RF-002 - Cerrar sesión en la plataforma**
 | Campo | Contenido |
 | :--- | :--- |
-| **Descripción** | El sistema finaliza la sesión activa del usuario actual, revoca el token de acceso y retorna a la pantalla de autenticación. |
-| **Origen** | Derivado del control de acceso por turnos operativos. |
+| **Descripción** | El sistema finaliza la sesión activa del usuario actual para liberar el dispositivo para el siguiente turno. |
+| **Origen** | Derivado del control de acceso por turnos compartidos. |
 | **Prioridad** | Imprescindible |
-| **Criterio de aceptación** | Al presionar el botón "Cerrar sesión", el sistema destruye la sesión activa, bloquea el acceso a las funciones de DIPROPOL y muestra la pantalla de inicio de sesión. |
-| **Relacionado con** | RF-001, RNF-CON-001 |
+| **Criterio de aceptación** | - Al presionar el botón "Cerrar sesión", el sistema finaliza la sesión activa de la cuenta.<br>- Al finalizar la sesión, el sistema redirige al usuario a la pantalla principal de acceso. |
+| **Relacionado con** | RF-001 |
 
-#### RF-003 · Generar ticket con folio único
+**RF-003 - Generar ticket con folio único**
 | Campo | Contenido |
 | :--- | :--- |
-| **Descripción** | El sistema registra órdenes de trabajo capturando título, descripción, prioridad y área, asignando automáticamente un folio inmutable y marca de tiempo. |
+| **Descripción** | El sistema registra una nueva incidencia asignando un folio identificador único e inalterable. |
 | **Origen** | Entrevista (Problema de rastreo en WhatsApp). |
 | **Prioridad** | Imprescindible |
-| **Criterio de aceptación** | Al completar los datos y presionar "Generar Folio", el sistema crea el registro en la base de datos, estampa la fecha/hora y muestra el nuevo folio en el Dashboard. |
-| **Relacionado con** | RF-004, RF-010, RNF-SEG-001 |
+| **Criterio de aceptación** | - Al presionar "Generar Folio" con los campos obligatorios llenos, el sistema guarda el registro en la base de datos.<br>- Al guardar el registro exitosamente, el sistema despliega en pantalla el código de folio generado.<br>- Si el usuario intenta guardar sin llenar un campo obligatorio, el sistema bloquea la generación del folio.<br>- Al bloquear la generación por campos vacíos, el sistema marca los recuadros faltantes en color rojo. |
+| **Relacionado con** | RF-006, RF-010 |
 
-#### RF-004 · Consultar tablero general (Dashboard)
+**RF-004 - Consultar tablero general (Dashboard)**
 | Campo | Contenido |
 | :--- | :--- |
-| **Descripción** | El sistema muestra un panel consolidado con los tickets activos filtrados por área, estado y prioridad, junto con indicadores de tiempo transcurrido. |
+| **Descripción** | El sistema muestra las métricas de cumplimiento SLA y tickets activos desglosados por área. |
 | **Origen** | Visión del producto (Métricas en tiempo real). |
 | **Prioridad** | Imprescindible |
-| **Criterio de aceptación** | Al ingresar al sistema, el usuario visualiza los tickets que corresponden a su área (si es operativo) o el total de la planta (si es administrador), actualizados sin necesidad de recargar la página. |
-| **Relacionado con** | RF-001, RNF-REN-001 |
+| **Criterio de aceptación** | - Al ingresar a la vista del Dashboard, el sistema carga en pantalla los datos actualizados de tickets activos.<br>- Al cargar el Dashboard, el sistema muestra el cálculo numérico del porcentaje de SLA de la semana en curso. |
+| **Relacionado con** | RF-003, RF-009 |
 
-#### RF-005 · Cambiar estado de ticket a en progreso
+**RF-005 - Cambiar estado de ticket a en progreso**
 | Campo | Contenido |
 | :--- | :--- |
-| **Descripción** | El sistema permite al responsable asignar el ticket a sí mismo y marcarlo como "En progreso", iniciando formalmente el tiempo de atención. |
+| **Descripción** | El sistema actualiza el estado de un ticket a 'En proceso' una vez que un operativo comienza a atenderlo. |
 | **Origen** | Regla de negocio operativa. |
 | **Prioridad** | Importante |
-| **Criterio de aceptación** | Al presionar "Atender solicitud", el estado del ticket cambia visualmente a "En progreso" y el ID del usuario actual queda registrado como el técnico asignado. |
+| **Criterio de aceptación** | - Al presionar el botón "Atender", el sistema cambia la etiqueta de estado a 'En proceso'.<br>- Al registrar el cambio de estado, el sistema anota la hora exacta de inicio de atención en el historial del ticket. |
 | **Relacionado con** | RF-003, RF-006 |
 
-#### RF-006 · Entregar evidencia obligatoria
+**RF-006 - Entregar evidencia obligatoria**
 | Campo | Contenido |
 | :--- | :--- |
-| **Descripción** | El sistema bloquea el cambio de estado de un ticket a 'Resuelto' si el responsable no adjunta un reporte escrito y un archivo multimedia (foto/documento). |
+| **Descripción** | El sistema exige la carga de un archivo fotográfico o documental para permitir el cambio de estado a 'Resuelto'. |
 | **Origen** | Entrevista (Trabajos reportados verbalmente a medias). |
 | **Prioridad** | Imprescindible |
-| **Criterio de aceptación** | Si el usuario presiona "Entregar Solución" sin haber cargado un archivo adjunto, el sistema despliega el error "Obligatorio adjuntar evidencia" y detiene el proceso. |
-| **Relacionado con** | RF-005, RF-007, RF-009, RNF-USA-001 |
+| **Criterio de aceptación** | - Si se presiona "Confirmar Resolución" sin un archivo adjunto, el sistema bloquea el cambio de estado.<br>- Al bloquear la acción por falta de archivo, el sistema despliega el mensaje de alerta "Obligatorio adjuntar evidencia".<br>- Al detectar un archivo adjunto válido, el sistema permite cambiar el estado del ticket a 'Resuelto'. |
+| **Relacionado con** | RF-005, RF-007, RF-009 |
 
-#### RF-007 · Rechazar solución de ticket
+**RF-007 - Rechazar solución de ticket**
 | Campo | Contenido |
 | :--- | :--- |
-| **Descripción** | El sistema exige una nota de corrección obligatoria cuando el usuario emisor original selecciona la opción de no aceptar el trabajo reportado como 'Resuelto'. |
+| **Descripción** | El sistema despliega un campo de texto obligatorio para que el emisor original justifique la inconformidad con el trabajo reportado. |
 | **Origen** | Entrevista (Fallas reincidentes a los pocos días). |
 | **Prioridad** | Imprescindible |
-| **Criterio de aceptación** | Al seleccionar el botón "No Aceptado", el sistema despliega un campo de texto que impide guardar la acción si se encuentra vacío. |
+| **Criterio de aceptación** | - Al presionar el botón "No Aceptado", el sistema despliega una ventana modal con un campo de notas.<br>- Si el campo de notas se encuentra vacío, el sistema bloquea el envío del formulario de rechazo. |
 | **Relacionado con** | RF-006, RF-008 |
 
-#### RF-008 · Reabrir ticket rechazado
+**RF-008 - Reabrir ticket rechazado**
 | Campo | Contenido |
 | :--- | :--- |
-| **Descripción** | El sistema actualiza el estado del ticket a 'Reabierto' y reinicia los contadores de la métrica SLA al registrarse un rechazo de solución. |
+| **Descripción** | El sistema actualiza el estado del ticket a 'Reabierto' tras confirmarse el ingreso de una nota de rechazo. |
 | **Origen** | Entrevista (Fallas reincidentes a los pocos días). |
 | **Prioridad** | Imprescindible |
-| **Criterio de aceptación** | Tras guardar la nota de corrección (RF-007), el estado cambia a 'Reabierto' y el tiempo SLA de resolución vuelve a 00:00. |
-| **Relacionado con** | RF-007, RF-009 |
+| **Criterio de aceptación** | - Al guardar exitosamente las notas de corrección, el sistema cambia el estado del ticket a 'Reabierto'.<br>- Al cambiar el estado a 'Reabierto', el sistema reinicia a cero el cronómetro de cálculo de SLA. |
+| **Relacionado con** | RF-007 |
 
-#### RF-009 · Cerrar ticket validado
+**RF-009 - Cerrar ticket validado**
 | Campo | Contenido |
 | :--- | :--- |
-| **Descripción** | El sistema cambia el estado del ticket a "Cerrado" y detiene permanentemente el contador SLA cuando el emisor original aprueba la evidencia enviada. |
+| **Descripción** | El sistema finaliza el ciclo de vida del ticket cambiando su estado a 'Cerrado' tras la validación del emisor original. |
 | **Origen** | Regla de negocio de "Doble visto bueno". |
 | **Prioridad** | Imprescindible |
-| **Criterio de aceptación** | Al presionar "Aceptar Solución", el sistema marca el folio como Cerrado, registra la fecha final de validación y lo archiva en el historial. |
-| **Relacionado con** | RF-006, RF-008 |
+| **Criterio de aceptación** | - Al presionar el botón "Liberado", el sistema cambia el estado del ticket permanentemente a 'Cerrado'.<br>- Al actualizar el estado a 'Cerrado', el sistema detiene el contador de tiempo del SLA de forma definitiva. |
+| **Relacionado con** | RF-006 |
 
-#### RF-010 · Reasignar folio entre áreas
+**RF-010 - Reasignar folio entre áreas**
 | Campo | Contenido |
 | :--- | :--- |
-| **Descripción** | El sistema transfiere la responsabilidad de un ticket abierto a otra área operativa, registrando el movimiento en el historial sin alterar el folio original. |
-| **Origen** | Entrevista (Descubrimiento: Ausencias y dependencias operativas). |
+| **Descripción** | El sistema transfiere la visibilidad de un ticket a otra área manteniendo su número de folio intacto. |
+| **Origen** | Entrevista (Descubrimiento: Ausencias y dependencias). |
 | **Prioridad** | Importante |
-| **Criterio de aceptación** | Al seleccionar un área distinta en un ticket activo, se añade el evento "Transferido de Área X a Área Y" en la bitácora del ticket y aparece en la bandeja del nuevo responsable. |
-| **Relacionado con** | RF-003, RNF-SEG-001 |
+| **Criterio de aceptación** | - Al seleccionar una nueva área y confirmar, el sistema mueve el ticket hacia la bandeja del departamento destino.<br>- Al concretar el traslado, el sistema inserta un registro automático sobre el cambio de área en el historial del chat. |
+| **Relacionado con** | RF-003 |
 
 ---
 
@@ -160,58 +149,56 @@ El sistema abarca la gestión operativa, comunicación formal y auditorías medi
 
 | ID | Atributo | Nombre | Prioridad | Origen |
 | :--- | :--- | :--- | :--- | :--- |
-| **RNF-REN-001** | Rendimiento | Actualización sin recarga de página | Imprescindible | Supuesto propio (Naturaleza de SPA con React/Supabase) |
-| **RNF-USA-001** | Usabilidad | Flujo táctil minimizado para técnicos | Importante | Observación del contexto de uso industrial |
-| **RNF-CON-001** | Confiabilidad | Disponibilidad operativa en turno | Imprescindible | Supuesto propio (Horario de planta 06:00 a 22:00) |
-| **RNF-SEG-001** | Seguridad | Inmutabilidad de folios de auditoría | Imprescindible | Entrevista (Necesidad de trazabilidad estricta) |
-
----
+| **RNF-USA-001** | Usabilidad | Pasos máximos para resolución de ticket | Imprescindible | Visión del Producto y confirmación en entrevista |
+| **RNF-SEG-001** | Seguridad | Restricción de liberación por roles | Imprescindible | Regla de negocio operativa (Doble visto bueno) |
+| **RNF-CON-001** | Confiabilidad / Trazabilidad | Registro inmutable de auditoría por ticket | Imprescindible | Derivado del tipo de sistema (Sistemas de Información) |
+| **RNF-REN-001** | Rendimiento | Tiempo límite de actualización de estado | Imprescindible | Derivado del uso operativo en dispositivos móviles |
 
 ### 4.2 Fichas
 
-#### RNF-REN-001 · Actualización sin recarga de página
-| Campo | Contenido |
-| :--- | :--- |
-| **Atributo de calidad** | Rendimiento |
-| **Descripción** | El sistema refleja los cambios de estado y la llegada de nuevos tickets en el Dashboard sin necesidad de recargar el navegador. |
-| **Métrica** | Tiempo máximo de respuesta visual de **2 segundos** para cambios de estado. |
-| **Origen** | Supuesto propio (Naturaleza web de la plataforma). |
-| **Prioridad** | Imprescindible |
-| **Por qué importa** | Para evitar retrasos operativos en piso y mantener la fluidez del usuario. |
-| **Afecta a** | RF-004, RF-005, RF-010 |
-
-#### RNF-USA-001 · Flujo táctil minimizado para técnicos
+**RNF-USA-001 - Pasos máximos para resolución de ticket**
 | Campo | Contenido |
 | :--- | :--- |
 | **Atributo de calidad** | Usabilidad |
-| **Descripción** | La interfaz móvil agrupa las opciones de evidencia y resolución para requerir una manipulación táctil mínima en piso de producción. |
-| **Métrica** | El flujo de resolución (escribir nota, tomar foto y confirmar) se completa en un máximo de **4 interacciones táctiles**. |
-| **Origen** | Observación del contexto de uso industrial. |
-| **Prioridad** | Importante |
-| **Por qué importa** | Los técnicos usan equipo de seguridad (guantes, lentes) y tienen tiempo limitado. Si el sistema es complejo, evadirán el proceso. |
-| **Afecta a** | RF-006, RF-010 |
+| **Descripción** | El proceso completo para reportar una solución y subir la evidencia desde la vista de detalle se realiza en menos de cuatro pasos de navegación en la pantalla táctil. |
+| **Métrica** | Un máximo de 4 clics o toques de pantalla desde que se presiona "Entregar Solución" hasta la visualización del estado 'Resuelto'. |
+| **Origen** | Confirmado en entrevista (Descubrimiento de uso en móviles en piso de planta). |
+| **Prioridad** | Imprescindible |
+| **Por qué importa** | Los operativos utilizan equipo de seguridad y operan en zonas con ruido. Si el software requiere demasiados pasos, abandonarán el sistema para reportar verbalmente. |
+| **Afecta a** | RF-005, RF-006 |
 
-#### RNF-CON-001 · Disponibilidad operativa en turno
+**RNF-SEG-001 - Restricción de liberación por roles**
 | Campo | Contenido |
 | :--- | :--- |
-| **Atributo de calidad** | Confiabilidad |
-| **Descripción** | El sistema mantiene disponibilidad operativa continua durante los horarios de producción. |
-| **Métrica** | Uptime del **99.5%** de Lunes a Sábado, entre las 06:00 y 22:00 hrs. |
-| **Origen** | Supuesto propio (Horario de planta). |
+| **Atributo de calidad** | Seguridad (Control de Acceso) |
+| **Descripción** | El sistema restringe la acción de aprobar o rechazar un ticket (botones 'Liberado' y 'No Aceptado') únicamente al usuario emisor original del reporte o a los usuarios con rol de Administrador. |
+| **Métrica** | 0% de accesos permitidos a las acciones de cierre definitivo desde sesiones con rol operativo que no coincidan con el ID del creador del folio. |
+| **Origen** | Regla de negocio (Doble visto bueno). |
 | **Prioridad** | Imprescindible |
-| **Por qué importa** | Una caída del servidor paraliza la comunicación formal de la planta y retrasa el mantenimiento. |
-| **Afecta a** | Todos los RF |
+| **Por qué importa** | Evita que el técnico ejecutor apruebe su propio trabajo sin la validación del solicitante, garantizando una auditoría cruzada sin conflictos de interés. |
+| **Afecta a** | RF-007, RF-008, RF-009 |
 
-#### RNF-SEG-001 · Inmutabilidad de folios de auditoría
+**RNF-CON-001 - Registro inmutable de auditoría por ticket**
 | Campo | Contenido |
 | :--- | :--- |
-| **Atributo de calidad** | Seguridad (Trazabilidad) |
-| **Descripción** | La base de datos impide la eliminación permanente (Hard Delete) de cualquier folio generado, permitiendo únicamente cambios a estados de cierre o cancelación (Soft Delete). |
-| **Métrica** | **100%** de los folios creados son inmutables a eliminación mediante la interfaz y conservan su registro histórico. |
-| **Origen** | Entrevista (Necesidad de trazabilidad estricta). |
+| **Atributo de calidad** | Confiabilidad (Trazabilidad e Integridad de datos) |
+| **Descripción** | Todo cambio de estado, generación de ticket, entrega de evidencia o reasignación almacena automáticamente fecha, hora exacta y el identificador del usuario, impidiendo la eliminación posterior del registro. |
+| **Métrica** | 100% de las transacciones guardan marca de tiempo (1 segundo de precisión) e ID de usuario, bloqueando comandos de eliminación (DELETE) en la tabla principal de folios. |
+| **Origen** | Derivado del tipo de sistema (Sistemas de Información). |
 | **Prioridad** | Imprescindible |
-| **Por qué importa** | Previene que empleados eliminen tickets comprometedores para manipular los tiempos de respuesta o evadir responsabilidades. |
-| **Afecta a** | RF-003, RF-010 |
+| **Por qué importa** | Elimina la incertidumbre sobre quién atendió, retrasó o reasignó un folio, permitiendo calcular las métricas del SLA con total precisión y sin alteración manual. |
+| **Afecta a** | RF-003, RF-005, RF-006, RF-008, RF-009, RF-010 |
+
+**RNF-REN-001 - Tiempo límite de actualización de estado**
+| Campo | Contenido |
+| :--- | :--- |
+| **Atributo de calidad** | Rendimiento |
+| **Descripción** | Las transacciones operativas en la plataforma (cambios de estado o reasignaciones) se reflejan en pantalla de forma fluida sin paralizar el dispositivo del usuario. |
+| **Métrica** | Un máximo de 2 segundos de tiempo de respuesta del servidor desde el clic de confirmación hasta el despliegue visual del nuevo estado bajo una conexión estándar 4G. |
+| **Origen** | Derivado del contexto de uso (Sistemas utilizados en movimiento). |
+| **Prioridad** | Imprescindible |
+| **Por qué importa** | En el piso de producción la fluidez es crítica; tiempos de espera prolongados generan duplicidad de acciones (el usuario toca el botón varias veces pensando que no funcionó) y corrompen los datos. |
+| **Afecta a** | RF-003, RF-005, RF-009, RF-010 |
 
 ---
 
@@ -219,65 +206,71 @@ El sistema abarca la gestión operativa, comunicación formal y auditorías medi
 
 ### 5.1 Relación de Casos de Uso del Sistema
 
-1.  **CU-01:** Levantar orden de trabajo
-2.  **CU-02:** Atender solicitud asignada y entregar evidencia (Caso de uso principal detallado)
-3.  **CU-03:** Validar y liberar ticket (Doble visto bueno)
-4.  **CU-04:** Reasignar folio a otro departamento
+1. **CU-01:** Levantar orden de trabajo.
+2. **CU-02:** Atender solicitud asignada.
+3. **CU-03:** Entregar solución con evidencia.
+4. **CU-04:** Validar y liberar ticket (Caso de uso principal detallado).
+5. **CU-05:** Reasignar folio entre áreas.
 
----
+### 5.2 Detalle de los Casos de Uso del Sistema
 
-### 5.2 Detalle del Caso de Uso Principal: CU-02 Atender solicitud y entregar evidencia
+**CU-04 Validar y liberar ticket**
 
-*   **Identificador:** CU-02
-*   **Título:** Atender solicitud asignada y entregar evidencia
-*   **Actor principal:** Usuario Operativo (Receptor)
-*   **Objetivo:** Registrar el trabajo físico realizado sobre una avería adjuntando pruebas para enviar el ticket a revisión del emisor.
-*   **Precondición:** El usuario ha iniciado sesión (RF-001), tiene un ticket en estado "En progreso" asignado a su área.
+*   **Identificador:** CU-04
+*   **Título:** Validar y liberar ticket (Doble Visto Bueno)
+*   **Actor principal:** Administrador / Dirección o Usuario Operativo (Emisor Original)
+*   **Actor secundario:** Usuario Operativo (Receptor/Técnico)
+*   **Objetivo:** Permitir que el emisor original valide la evidencia de un trabajo y apruebe su cierre definitivo o lo rechace para exigir correcciones.
+*   **Precondición:** El usuario ha iniciado sesión en el sistema (RF-001) y existe al menos un ticket en estado 'Resuelto' (RF-006) en su bandeja de revisión.
 
-#### Escenario Principal (Flujo Feliz):
-1.  El usuario operativo selecciona un ticket de su bandeja en el Dashboard.
-2.  El sistema despliega los detalles del folio, descripción y prioridad.
-3.  El usuario presiona el botón "Entregar Solución".
-4.  El sistema despliega el formulario de cierre solicitando nota de trabajo y archivo adjunto.
-5.  El usuario escribe un breve reporte de las acciones realizadas.
-6.  El usuario toma una fotografía de la máquina reparada desde su dispositivo móvil y la adjunta al formulario.
-7.  El usuario presiona "Confirmar Envío".
-8.  El sistema valida la presencia del texto y la imagen (RF-006), cambia el estado del ticket a "Resuelto", pausa el cronómetro del SLA y notifica en el sistema al emisor original para su validación (CU-03).
+**Escenario Principal (Happy path):**
 
-#### Flujos Alternos:
-*   **Flujo Alterno 7a (Falta de evidencia - RF-006):**
-    1.  En el paso 7, el usuario presiona "Confirmar Envío" sin haber adjuntado una fotografía o documento.
-    2.  El sistema detiene la petición, resalta el campo de adjuntos en rojo y despliega el mensaje de error: *"Obligatorio adjuntar evidencia"*.
-    3.  El flujo regresa al paso 6 para que el usuario capture la imagen requerida.
+1. El Emisor selecciona el ticket en estado 'Resuelto' desde su bandeja de revisión.
+2. El sistema despliega la Vista de Detalle, cargando el historial y el archivo de evidencia adjunto.
+3. El Emisor revisa el informe técnico y visualiza la evidencia fotográfica o documental.
+4. El Emisor presiona el botón "Liberado" para aprobar el trabajo (RF-009).
+5. El sistema actualiza el estado del ticket a 'Cerrado' de forma permanente.
+6. El sistema detiene definitivamente el contador de tiempo del SLA.
+7. El sistema registra la transacción en el sistema con fecha, hora e ID del Emisor (RNF-CON-001).
+8. El sistema redirige al Emisor de vuelta al Dashboard (RF-004).
 
-*   **Flujo Alterno 3a (El problema corresponde a otra área - RF-010):**
-    1.  En el paso 3, el usuario revisa el detalle y determina que la falla reportada no es mecánica, sino eléctrica.
-    2.  El usuario presiona el botón "Reasignar folio".
-    3.  El sistema despliega un menú desplegable con los departamentos disponibles.
-    4.  El usuario selecciona "Mantenimiento Eléctrico" y confirma.
-    5.  El sistema actualiza el responsable del ticket (RF-010), registra el cambio en el historial y lo elimina de la bandeja del usuario actual.
+**Flujos Alternos:**
 
-*   **Postcondición:** El ticket queda en estado "Resuelto" a la espera de la liberación del creador, y queda un respaldo inmutable de la fecha y hora de entrega.
-*   **Requisitos que realiza:** RF-005, RF-006, RF-010, RNF-USA-001.
+*   **Flujo Alterno 4a (Trabajo Incompleto / Rechazo - RF-007):**
+    1. En el paso 4, si el Emisor considera que el trabajo está incompleto o mal realizado, presiona el botón "No Aceptado".
+    2. El sistema despliega una ventana con un campo de notas de corrección (RF-007).
+    3. El Emisor intenta enviar el formulario dejando el campo de notas vacío.
+    4. El sistema bloquea el envío, ya que la nota de corrección es obligatoria.
+    5. El Emisor ingresa el texto detallando las correcciones necesarias y presiona "Guardar".
+    6. El sistema guarda la nota de rechazo en el sistema.
+    7. El sistema actualiza el estado del ticket a 'Reabierto' (RF-008).
+    8. El sistema reinicia a cero el contador de cálculo de SLA de atención (RF-008).
+    9. El flujo termina redirigiendo al Emisor al Dashboard, donde el ticket vuelve a estar activo.
 
----
+*   **Flujo Alterno 1a (Intento de validación por rol no autorizado - RNF-SEG-001):**
+    1. Previo al paso 1, un usuario con rol Operativo intenta acceder a la pantalla de revisión de un ticket del cual **no** es el emisor original.
+    2. El sistema bloquea la visualización de los botones "Liberado" y "No Aceptado".
+    3. El flujo termina, impidiendo que el usuario valide el ticket (RNF-SEG-001).
+
+*   **Postcondición:** El ticket cambia su estado a 'Cerrado' (deteniendo el SLA permanentemente) o a 'Reabierto' (reiniciando el SLA y notificando al usuario operativo), y se genera un registro en el historial de la transacción (RNF-CON-001).
+
+*   **Requisitos que realiza:** RF-004, RF-007, RF-008, RF-009, RNF-SEG-001, RNF-CON-001, RNF-REN-001.
 
 ## 6. Trazabilidad
 
-| Requisito | Origen | Caso de uso | Elemento del prototipo | Estado |
-| :--- | :--- | :--- | :--- | :--- |
-| **RF-001** | Derivado de seguridad | Todos | Pantalla Login | Vigente |
-| **RF-002** | Derivado de seguridad | Todos | Menú lateral / Botón Salir | Vigente |
-| **RF-003** | Eliminar WhatsApp | CU-01 Levantar orden | Formulario "Crear Nuevo Ticket" | Vigente |
-| **RF-004** | Visión del producto | Todos | Tablero General (Dashboard) | Vigente |
-| **RF-005** | Regla operativa | CU-02 Atender solicitud | Botón "Atender" en Detalle | Vigente |
-| **RF-006** | Garantizar trabajo real | CU-02 Atender solicitud | Modal "Entregar Evidencia" | Vigente |
-| **RF-007** | Evitar cierres falsos | CU-03 Validar ticket | Botón "No Aceptado" en Detalle | Vigente |
-| **RF-008** | Evitar cierres falsos | CU-03 Validar ticket | Estado "Reabierto" en Dashboard | Vigente |
-| **RF-009** | Regla operativa | CU-03 Validar ticket | Botón "Aceptar Solución" | Vigente |
-| **RF-010** | Manejar ausencias | CU-04 Reasignar folio | Select "Reasignar Área" | Vigente |
-| **RNF-USA-001** | Trabajo en piso | CU-02 Atender solicitud | Interfaz de 4 toques en móvil | Vigente |
-| **RNF-SEG-001** | Auditoría estricta | CU-01, CU-04 | Base de datos (Sin botón Delete) | Vigente |
+| Requisito | Origen | Caso de Uso | Elemento del prototipo |
+| :--- | :--- | :--- | :--- |
+| **RF-001** | Derivado del sistema | Levantar orden de trabajo | Pantalla "Login" (No prototipada para MVP) |
+| **RF-002** | Derivado del sistema | Validar y liberar ticket | Botón "Cerrar sesión" en Menú Lateral |
+| **RF-003** | Entrevista 22 sep. | Levantar orden de trabajo | Dashboard y Pantalla "Crear Ticket" |
+| **RF-004** | Visión de producto | Levantar orden de trabajo | Dashboard General (Tarjetas de métricas) |
+| **RF-005** | Regla operativa | Atender solicitud asignada | Vista de Detalle (Cambio de estado) |
+| **RF-006** | Entrevista 22 sep. | Entregar solución con evidencia | Vista de Detalle y Modal "Entregar Evidencia" |
+| **RF-007** | Entrevista 22 sep. | Validar y liberar ticket | Modal "No Aceptado" (Entrada de texto) |
+| **RF-008** | Entrevista 22 sep. | Validar y liberar ticket | Dashboard (Ticket vuelve con etiqueta roja) |
+| **RF-009** | Regla de negocio | Validar y liberar ticket | Pantalla "Revisión de emisor" (Botón Liberado) |
+| **RF-010** | Descubrimiento 22 sep. | Reasignar folio | Botón "Reasignar" en Vista de Detalle |
+| **RNF-USA-001** | Descubrimiento 22 sep. | N/A | Flujo Mobile First en todo el Prototipo |
 
 ---
 
@@ -285,7 +278,8 @@ El sistema abarca la gestión operativa, comunicación formal y auditorías medi
 
 | Fecha | Requisito | Qué cambió | Por qué |
 | :--- | :--- | :--- | :--- |
-| 18/08/2026 | Todos | Creación inicial de especificación (v1.0). | Requerimientos base. |
-| 22/09/2026 | Usuarios | Modificación de usuarios. | Alineación con la Ficha de Dominio. |
-| 28/09/2026 | Todos | Reestructuración total a formato desglosado con tablas por ficha y verbos en infinitivo. | Mejora en la trazabilidad, atomicidad e incorporación de Casos de Uso detallados y flujos alternos. |
-| 28/09/2026 | RF-002 | Adición del requisito funcional "Cerrar sesión en la plataforma". | Corrección de omisión técnica. Garantizar la seguridad de sesiones en dispositivos compartidos. |
+| 18/08/2026 | Todos | Creación inicial del documento | Primera versión basada en la Visión del Producto. |
+| 22/09/2026 | General | Modificación de roles a esquema binario | Simplificación de arquitectura derivada de la entrevista. |
+| 28/09/2026 | RF-001 a 010 | Desglose y expansión detallada de requisitos funcionales | Corrección para cumplir la regla de "Una sola idea por requisito", eliminando acciones compuestas y detallando cada función de acuerdo con la tabla de 10 puntos. |
+| 29/09/2026 | RF-001 a 010 | Refinamiento de Criterios de Aceptación | Ajuste estructural mediante listas con viñetas para garantizar que cada respuesta del sistema se evalúe como una prueba unitaria independiente, eliminando conectores lógicos compuestos. |
+| 29/09/2026 | Trazabilidad | Se completó la columna de pantallas del prototipo | Alineación con la entrega de diseño en Figma. |
