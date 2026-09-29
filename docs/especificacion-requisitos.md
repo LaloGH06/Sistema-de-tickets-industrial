@@ -286,6 +286,6 @@ El sistema abarca la gestión operativa, comunicación formal y auditorías medi
 | Fecha | Requisito | Qué cambió | Por qué |
 | :--- | :--- | :--- | :--- |
 | 18/08/2026 | Todos | Creación inicial de especificación (v1.0). | Requerimientos base. |
-| 22/09/2026 | Usuarios | Modificación de usuarios a roles binarios (Administrador / Operativo). | Alineación con la Ficha de Dominio. |
-| 28/09/2026 | Todos | Reestructuración total a formato desglosado con tablas por ficha y verbos en infinitivo (v2.0). | Mejora en la trazabilidad, atomicidad e incorporación de Casos de Uso detallados y flujos alternos. |
-| 28/09/2026 | RF-002 | Adición del requisito funcional "Cerrar sesión en la plataforma" y reajuste de la numeración general (v2.1). | Corrección de omisión técnica. Garantizar la seguridad de sesiones en dispositivos compartidos de piso. |
+| 22/09/2026 | Usuarios | Modificación de usuarios. | Alineación con la Ficha de Dominio. |
+| 28/09/2026 | Todos | Reestructuración total a formato desglosado con tablas por ficha y verbos en infinitivo. | Mejora en la trazabilidad, atomicidad e incorporación de Casos de Uso detallados y flujos alternos. |
+| 28/09/2026 | RF-002 | Adición del requisito funcional "Cerrar sesión en la plataforma". | Corrección de omisión técnica. Garantizar la seguridad de sesiones en dispositivos compartidos. |
