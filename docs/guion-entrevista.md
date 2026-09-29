@@ -47,7 +47,7 @@ La revisión de la dupla es requisito para que el trabajo se pueda evaluar y deb
 
 ---
 
-## C. Bitácora de la entrevista
+## C. Conclusiones de la entrevista
 
 **Supuestos que resultaron falsos:**
 * Creíamos que forzar un cierre automático en 48 horas era buena idea, pero la entrevista reveló que esto generaría tickets cerrados falsamente; el visto bueno no debe tener un límite de tiempo restrictivo.
