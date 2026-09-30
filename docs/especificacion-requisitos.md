@@ -236,19 +236,22 @@ El Administrador quiere un control estricto para sus métricas. El Operativo qui
 
 **Flujos Alternos:**
 
-*   **Flujo Alterno 4a (Trabajo Incompleto / Rechazo - RF-007):**
+*   **Flujo Alterno 4a (Trabajo Incompleto / Rechazo Exitoso - RF-007, RF-008):**
     1. En el paso 4, si el Emisor considera que el trabajo está incompleto o mal realizado, presiona el botón "No Aceptado".
     2. El sistema despliega una ventana con un campo de notas de corrección (RF-007).
-    3. El Emisor intenta enviar el formulario dejando el campo de notas vacío.
-    4. El sistema bloquea el envío, ya que la nota de corrección es obligatoria.
-    5. El Emisor ingresa el texto detallando las correcciones necesarias y presiona "Guardar".
-    6. El sistema guarda la nota de rechazo en el sistema.
-    7. El sistema actualiza el estado del ticket a 'Reabierto' (RF-008).
-    8. El sistema reinicia a cero el contador de cálculo de SLA de atención (RF-008).
-    9. El flujo termina redirigiendo al Emisor al Dashboard, donde el ticket vuelve a estar activo.
+    3. El Emisor ingresa el texto detallando las correcciones necesarias y presiona "Guardar".
+    4. El sistema guarda la nota de rechazo en el sistema.
+    5. El sistema actualiza el estado del ticket a 'Reabierto' (RF-008).
+    6. El sistema reinicia a cero el contador de cálculo de SLA de atención (RF-008).
+    7. El flujo termina redirigiendo al Emisor al Dashboard, donde el ticket vuelve a estar activo.
+
+*   **Flujo Alterno 4b (Intento de rechazo sin notas - Validación RF-007):**
+    1. En el paso 3 del Flujo Alterno 4a, el Emisor intenta enviar el formulario dejando el campo de notas vacío.
+    2. El sistema bloquea el envío, ya que la nota de corrección es obligatoria.
+    3. El flujo regresa al paso 3 del Flujo Alterno 4a, a la espera de que el Emisor ingrese el texto.
 
 *   **Flujo Alterno 1a (Intento de validación por rol no autorizado - RNF-SEG-001):**
-    1. Previo al paso 1, un usuario con rol Operativo intenta acceder a la pantalla de revisión de un ticket del cual **no** es el emisor original.
+    1. Previo al paso 1, un usuario con rol Operativo intenta acceder a la pantalla de revisión de un ticket del cual no es el emisor original.
     2. El sistema bloquea la visualización de los botones "Liberado" y "No Aceptado".
     3. El flujo termina, impidiendo que el usuario valide el ticket (RNF-SEG-001).
 
