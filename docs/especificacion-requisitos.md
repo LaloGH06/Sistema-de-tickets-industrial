@@ -286,3 +286,5 @@ El Administrador quiere un control estricto para sus métricas. El Operativo qui
 | 28/09/2026 | RF-001 a 010 | Desglose y expansión detallada de requisitos funcionales | Corrección para cumplir la regla de "Una sola idea por requisito", eliminando acciones compuestas y detallando cada función de acuerdo con la tabla de 10 puntos. |
 | 29/09/2026 | RF-001 a 010 | Refinamiento de Criterios de Aceptación | Ajuste estructural mediante listas con viñetas para garantizar que cada respuesta del sistema se evalúe como una prueba unitaria independiente, eliminando conectores lógicos compuestos. |
 | 29/09/2026 | Trazabilidad | Se completó la columna de pantallas del prototipo | Alineación con la entrega de diseño en Figma. |
+
+Figma: https://www.figma.com/design/1zI6qyqK3WlLbo0p0qJ9mE/Sin-t%C3%ADtulo?node-id=0-1&t=kOaKsDbDYWdnbeDx-1
