@@ -1,0 +1,21 @@
+flowchart TD
+    web["App web"]
+    bd[("Base de datos")]
+
+    subgraph srv["Servidor de la plataforma · monolito modular"]
+        ident["Identidad y estructura<br/>personas, roles y departamentos"]
+        oper["Operación<br/>ciclo de vida del ticket y cronómetro"]
+        arch["Archivos<br/>valida, sube y guarda evidencia"]
+    end
+
+    web -->|inicia y cierra sesión| ident
+    web -->|levanta, atiende, valida y adjunta evidencia| oper
+
+    oper -->|pregunta a qué área asignar y quién puede liberar| ident
+    oper -->|pregunta si hay evidencia y le envía la adjunta| arch
+
+    ident -->|guarda personas, roles y áreas| bd
+    oper -->|guarda tickets y tiempos de cada fase| bd
+    arch -->|guarda los documentos| bd
+
+    style oper fill:#ff5d00,color:#fff

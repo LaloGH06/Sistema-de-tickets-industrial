@@ -1,0 +1,16 @@
+flowchart TD
+    op(["Usuario Operativo<br/>Emisor / Receptor"])
+    adm(["Administrador / Dirección"])
+
+    subgraph sistema["Sistema de tickets industriales"]
+        web["App web<br/>mobile first"]
+        srv["Servidor de la plataforma<br/>monolito modular"]
+        bd[("Base de datos<br/>folios, historial y evidencias")]
+    end
+
+    op -->|usa desde su celular| web
+    adm -->|usa desde el navegador| web
+    web -->|peticiones por internet| srv
+    srv -->|lee y escribe| bd
+
+    style srv fill:#ff5d00,color:#fff

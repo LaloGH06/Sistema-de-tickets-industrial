@@ -1,0 +1,11 @@
+flowchart TD
+    op(["Usuario Operativo<br/>Emisor / Receptor"])
+    adm(["Administrador / Dirección"])
+    sis["Sistema de tickets industriales"]
+
+    op -->|levanta tickets, atiende solicitudes y entrega evidencia| sis
+    op -->|valida o rechaza los tickets que levantó| sis
+    adm -->|consulta métricas SLA y audita tiempos de respuesta| sis
+    adm -->|valida y libera tickets| sis
+
+    style sis fill:#ff5d00,color:#fff
