@@ -1,1 +1,76 @@
-\--- ### 2\. Archivo: \`doc/arch/analisis-impacto.md\` \`\`\`markdown # Análisis de Impacto de Solicitud de Cambio (Semana 15) - Sistema: Sistema de Tickets Industriales - Autor del sistema: Jorge Eduardo García Hernández (00545791) - Dupla evaluadora / Solicitante: Jonathan Michel García Pacheco - Fecha: 12 de noviembre de 2026 - Versión de diseño base: 1.3 --- ## 1\. Descripción de la Solicitud de Cambio Recibida Identificador de solicitud: CR-2026-001 Descripción del cambio solicitado: "Se solicita incorporar al flujo de atención de órdenes de trabajo la gestión de refacciones requeridas. Cuando un técnico cambia el ticket a estado 'En proceso', debe poder solicitar una o más refacciones al área de Almacén con número de parte y cantidad. El ticket no podrá pasar a estado 'Resuelto' hasta que Almacén confirme la entrega de las piezas mediante un comprobante de vale de salida." --- ## 2\. Rastreo de Impacto en Documentos y Requisitos Recorriendo la matriz de trazabilidad y especificación de requisitos, el cambio impacta los siguientes puntos: 1\. Visión del Producto (docs/vision-del-producto.md): - Sección 3 (Alcance): Modifica la cláusula explícita de exclusión actual que dicta: "El sistema no gestiona compras, cotizaciones ni inventario de refacciones". Implica modificar formalmente la frontera del sistema. 2\. Requisitos Funcionales (docs/especificacion-requisitos.md): - RF-005 (Cambiar estado a en progreso): Se debe modificar para permitir la captura opcional de la lista de refacciones requeridas. - RF-006 (Entregar evidencia obligatoria): Debe condicionar el paso a 'Resuelto' no solo a la evidencia técnica, sino a la confirmación previa del vale de Almacén. - Requisito nuevo (RF-011): Crear la ficha formal para "Confirmar entrega de refacciones por Almacén". 3\. Casos de Uso y Prototipo (docs/diagramas/casos-de-uso.drawio y Figma): - CU-02 (Atender solicitud asignada): Añadir flujo alterno para solicitud de refacción. - Caso de uso nuevo: "Despachar refacción de orden de trabajo" asociado al actor Almacén. - Figma: Diseñar la modal de requisición de piezas y la pantalla de validación de entrega de Almacén. --- ## 3\. Impacto Técnico en Arquitectura y Clases (doc/arch/diagramas.md) 1\. Diagrama de Clases: - Nueva clase de dominio Refaccion: con atributos -codigoParte: string, -descripcion: string, -cantidad: int y -despachada: bool. - Modificación a Ticket: se agrega la composición Ticket "1" \*-- "\*" Refaccion y los métodos +solicitarRefacciones(lista: List\~Refaccion\~) y +todasRefaccionesDespachadas(): bool. - Modificación a IServicioDeEvidencias: debe admitir la categoría de archivo ValeAlmacen para vincularlo a las refacciones. 2\. Diagrama de Secuencia: - Se debe crear un nuevo diagrama de secuencia para la interacción cruzada entre el Técnico, el Ticket y el encargado de Almacén. 3\. Diagrama de Estados: - Se introduce un subestado intermedio: "En Espera de Refacción", el cual debe congelar el cronómetro de SLA de atención para no penalizar al técnico por demoras de inventario. --- ## 4\. Estimación de Esfuerzo Justificada La estimación se calcula considerando que el diseño base es un monolito modular: | Actividad técnica | Elementos modificados | Esfuerzo estimado | | :--- | :--- | :--- | | Actualización de requisitos y alcance | Visión del producto, nuevo RF-011 y actualización de trazabilidad | 4 horas | | Diseño y prototipado UI | 2 pantallas nuevas en Figma y actualización de casos de uso | 6 horas | | Modelado UML estructural y dinámico | Clase Refaccion, métodos en Ticket, nuevo estado y secuencia | 6 horas | | Ajustes en interfaz de evidencias | Soporte de tipo de documento para vales de almacén | 3 horas | | Total estimado: | 4 componentes / 1 clase nueva / 1 módulo impactado | 19 horas (aprox. 3 a 4 días laborables) | --- ## 5\. Postura y Decisión Técnica Decisión: RECHAZAR PARA LA VERSIÓN ACTUAL (1.3); POSPONER PARA VERSIÓN 2.0\. Justificación técnica: 1\. Riesgo de desvirtuar el dominio del sistema: La plataforma fue concebida como un centro de auditoría y flujo de comunicación operativa rápida. Integrar la gestión de refacciones introduce conceptos de inventario y almacén que escapan al alcance actual y aumentan el acoplamiento del módulo de Operación. 2\. Inconsistencia con la infraestructura instalada: Almacén actualmente opera con vales físicos de papel. Forzar este flujo en la plataforma sin antes digitalizar el inventario general causará rechazo de los usuarios y cuellos de botella en la liberación de tickets. 3\. Alternativa viable sin modificar el código: Se acuerda con la dupla que el técnico ejecutor puede fotografiar el vale de almacén físico firmado y subirlo como un archivo adjunto regular mediante el ServicioDeEvidencias existente, cumpliendo con la auditoría sin requerir cambios estructurales en el software hoy.
+# Análisis de Impacto de Solicitud de Cambio (Semana 15)
+
+- **Sistema:** Sistema de Tickets Industriales
+- **Autor del sistema:** Jorge Eduardo García Hernández (00545791)
+- **Dupla evaluadora / Solicitante:** Jonathan Michel García Pacheco
+- **Fecha:** 12 de noviembre de 2026
+- **Versión de diseño base:** 1.3
+
+---
+
+## 1. Descripción de la Solicitud de Cambio Recibida
+
+**Identificador de solicitud:** CR-2026-001
+
+**Descripción del cambio solicitado:**
+"Se solicita incorporar al flujo de atención de órdenes de trabajo la gestión de refacciones requeridas. Cuando un técnico cambia el ticket a estado 'En proceso', debe poder solicitar una o más refacciones al área de Almacén con número de parte y cantidad. El ticket no podrá pasar a estado 'Resuelto' hasta que Almacén confirme la entrega de las piezas mediante un comprobante de vale de salida."
+
+---
+
+## 2. Rastreo de Impacto en Documentos y Requisitos
+
+Recorriendo la matriz de trazabilidad y especificación de requisitos, el cambio impacta los siguientes puntos:
+
+1. **Visión del Producto (`docs/vision-del-producto.md`):**
+   - **Sección 3 (Alcance):** Modifica la cláusula explícita de exclusión actual que dicta: *"El sistema no gestiona compras, cotizaciones ni inventario de refacciones"*. Implica modificar formalmente la frontera del sistema.
+
+2. **Requisitos Funcionales (`docs/especificacion-requisitos.md`):**
+   - **RF-005 (Cambiar estado a en progreso):** Se debe modificar para permitir la captura opcional de la lista de refacciones requeridas.
+   - **RF-006 (Entregar evidencia obligatoria):** Debe condicionar el paso a 'Resuelto' no solo a la evidencia técnica, sino a la confirmación previa del vale de Almacén.
+   - **Requisito nuevo (RF-011):** Crear la ficha formal para "Confirmar entrega de refacciones por Almacén".
+
+3. **Casos de Uso y Prototipo (`docs/diagramas/casos-de-uso.drawio` y Figma):**
+   - **CU-02 (Atender solicitud asignada):** Añadir flujo alterno para solicitud de refacción.
+   - **Caso de uso nuevo:** "Despachar refacción de orden de trabajo" asociado al actor Almacén.
+   - **Figma:** Diseñar la modal de requisición de piezas y la pantalla de validación de entrega de Almacén.
+
+---
+
+## 3. Impacto Técnico en Arquitectura y Clases (`doc/arch/diagramas.md`)
+
+1. **Diagrama de Clases:**
+   - Nueva clase de dominio `Refaccion`: con atributos `-codigoParte: string`, `-descripcion: string`, `-cantidad: int` y `-despachada: bool`.
+   - Modificación a `Ticket`: se agrega la composición `Ticket "1" *-- "*" Refaccion` y los métodos `+solicitarRefacciones(lista: List<Refaccion>)` y `+todasRefaccionesDespachadas(): bool`.
+   - Modificación a `IServicioDeEvidencias`: debe admitir la categoría de archivo `ValeAlmacen` para vincularlo a las refacciones.
+
+2. **Diagrama de Secuencia:**
+   - Se debe crear un nuevo diagrama de secuencia para la interacción cruzada entre el Técnico, el Ticket y el encargado de Almacén.
+
+3. **Diagrama de Estados:**
+   - Se introduce un subestado intermedio: "En Espera de Refacción", el cual debe congelar el cronómetro de SLA de atención para no penalizar al técnico por demoras de inventario.
+
+---
+
+## 4. Estimación de Esfuerzo Justificada
+
+La estimación se calcula considerando que el diseño base es un monolito modular:
+
+| Actividad técnica | Elementos modificados | Esfuerzo estimado |
+| :--- | :--- | :--- |
+| **Actualización de requisitos y alcance** | Visión del producto, nuevo RF-011 y actualización de trazabilidad | 4 horas |
+| **Diseño y prototipado UI** | 2 pantallas nuevas en Figma y actualización de casos de uso | 6 horas |
+| **Modelado UML estructural y dinámico** | Clase `Refaccion`, métodos en `Ticket`, nuevo estado y secuencia | 6 horas |
+| **Ajustes en interfaz de evidencias** | Soporte de tipo de documento para vales de almacén | 3 horas |
+| **Total estimado:** | **4 componentes / 1 clase nueva / 1 módulo impactado** | **19 horas (aprox. 3 a 4 días laborables)** |
+
+---
+
+## 5. Postura y Decisión Técnica
+
+**Decisión: RECHAZAR PARA LA VERSIÓN ACTUAL (1.3); POSPONER PARA VERSIÓN 2.0.**
+
+**Justificación técnica:**
+
+1. **Riesgo de desvirtuar el dominio del sistema:** La plataforma fue concebida como un centro de auditoría y flujo de comunicación operativa rápida. Integrar la gestión de refacciones introduce conceptos de inventario y almacén que escapan al alcance actual y aumentan el acoplamiento del módulo de Operación.
+2. **Inconsistencia con la infraestructura instalada:** Almacén actualmente opera con vales físicos de papel. Forzar este flujo en la plataforma sin antes digitalizar el inventario general causará rechazo de los usuarios y cuellos de botella en la liberación de tickets.
+3. **Alternativa viable sin modificar el código:** Se acuerda con la dupla que el técnico ejecutor puede fotografiar el vale de almacén físico firmado y subirlo como un archivo adjunto regular mediante el `ServicioDeEvidencias` existente, cumpliendo con la auditoría sin requerir cambios estructurales en el software hoy.
