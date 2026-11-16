@@ -1,9 +1,4 @@
 # SC-001: Filtro por estado en la lista de tickets
-
-> Plantilla de solicitud de cambio · SIS3407
-> Guárdala como `doc/cambios/sc-001-filtro-por-estado.md`
-> La escribe la dupla de revisión.
-
 ---
 
 ## Estado
