@@ -1,9 +1,5 @@
 # SC-001: Gestión y validación de refacciones requeridas en órdenes de trabajo
 
-> Plantilla de solicitud de cambio · Ingeniería de Software I · SIS3407
-> Guárdala en tu repositorio como `doc/cambios/sc-001-gestion-de-refacciones.md`
-> Quien escribe esta solicitud es la **dupla de revisión**, no el dueño del sistema.
-
 ---
 
 ## Estado
