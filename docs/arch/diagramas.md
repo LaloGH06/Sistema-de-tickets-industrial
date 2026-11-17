@@ -188,6 +188,7 @@ classDiagram
 
     IServicioDeEvidencias <|.. ServicioDeEvidencias
     ServicioDeEvidencias "1" --> "0..*" Evidencia : administra
+```
 
 ## 5. Diseño de Comportamiento · Diagrama de Secuencia UML
 Modela el flujo de interacción paso a paso durante la validación y cierre (o rechazo) de un ticket.
