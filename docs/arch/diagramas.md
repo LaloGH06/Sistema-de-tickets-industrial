@@ -77,10 +77,9 @@ flowchart TD
 ## 4. Diseño Estructural · Diagrama de Clases UML
 Representa las entidades principales del dominio y sus métodos de validación y operación.
 
-```mermaid
 classDiagram
     direction LR
-    
+
     class Usuario {
         -id: string
         -nombre: string
@@ -93,20 +92,101 @@ classDiagram
         +puedeLevantarTickets() bool
         +puedeValidarCierre(idEmisor: string) bool
     }
-    
+
     class Area {
         -id: string
         -nombre: string
         -tipo: string
         +esGerencia() bool
     }
-    
+
+    class Ticket {
+        -folio: string
+        -descripcion: string
+        -prioridad: string
+        -estado: string
+        -idEmisor: string
+        -idReceptor: string
+        -idArea: string
+        -tieneEvidencia: bool
+        -historial: List~string~
+        +generar() bool
+        +atender(receptor: Usuario) bool
+        +resolver(evidencias: List~string~) bool
+        +liberar(quien: Usuario) bool
+        +rechazar(quien: Usuario, notas: string) bool
+        +reasignar(nuevaArea: Area) bool
+        +cambiarEstado(nuevoEstado: string)
+        +registrarMovimiento(idUsuario: string, detalle: string)
+    }
+
+    class SLA {
+        -inicio: datetime
+        -tiempoTotal: int
+        -detenido: bool
+        +detener()
+        +reiniciar()
+        +actualizar(ticket: Ticket)
+    }
+
     class IValidadorDeCierre {
         <<interface>>
+        +validarCierre(idUsuario: string, idEmisor: string) bool
     }
-```
 
----
+    class ValidadorAdministrador {
+        +validarCierre(idUsuario: string, idEmisor: string) bool
+    }
+
+    class ValidadorEmisor {
+        +validarCierre(idUsuario: string, idEmisor: string) bool
+    }
+
+    class IObservadorDeEstado {
+        <<interface>>
+        +actualizar(ticket: Ticket)
+    }
+
+    class Notificador {
+        +actualizar(ticket: Ticket)
+    }
+
+    class IServicioDeEvidencias {
+        <<interface>>
+        +subirEvidencia(idTicket: string, archivo: string) bool
+        +obtenerEvidencias(idTicket: string) List~Evidencia~
+    }
+
+    class ServicioDeEvidencias {
+        +subirEvidencia(idTicket: string, archivo: string) bool
+        +obtenerEvidencias(idTicket: string) List~Evidencia~
+    }
+
+    class Evidencia {
+        -id: string
+        -nombreArchivo: string
+        -urlDestino: string
+        -fechaSubida: datetime
+        +obtenerUrl() string
+    }
+
+    Usuario "1" --> "0..*" Ticket : emite
+    Usuario "0..1" --> "0..*" Ticket : atiende
+    Area "1" --> "0..*" Ticket : recibe
+    
+    Ticket "1" *-- "1" SLA : mide el tiempo
+    Ticket --> "1" IValidadorDeCierre : valida con
+    Ticket --> "0..*" IObservadorDeEstado : notifica a
+    Ticket --> "1" IServicioDeEvidencias : gestiona fotos con
+    
+    IValidadorDeCierre <|.. ValidadorAdministrador
+    IValidadorDeCierre <|.. ValidadorEmisor
+    
+    IObservadorDeEstado <|.. SLA
+    IObservadorDeEstado <|.. Notificador
+
+    IServicioDeEvidencias <|.. ServicioDeEvidencias
+    ServicioDeEvidencias "1" --> "0..*" Evidencia : administra
 
 ## 5. Diseño de Comportamiento · Diagrama de Secuencia UML
 Modela el flujo de interacción paso a paso durante la validación y cierre (o rechazo) de un ticket.
