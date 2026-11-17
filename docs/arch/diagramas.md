@@ -77,6 +77,7 @@ flowchart TD
 ## 4. Diseño Estructural · Diagrama de Clases UML
 Representa las entidades principales del dominio y sus métodos de validación y operación.
 
+```mermaid
 classDiagram
     direction LR
 
