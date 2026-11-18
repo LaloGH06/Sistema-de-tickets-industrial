@@ -28,7 +28,8 @@ Es una plataforma para gestionar y auditar órdenes de trabajo e incidencias en 
   - **Observer:** Para actualizar cronómetros de SLA al cambiar estados (`IObservadorDeEstado`).
 
 ---
-
+## Video de presentación
+[Ver el video en YouTube](https://youtu.be/MTBlmfP5iLc)
 ##  Contenido del repositorio
 Toda la documentación técnica se encuentra en la carpeta `docs/`:
 
