@@ -176,9 +176,9 @@ classDiagram
     Area "1" --> "0..*" Ticket : recibe
     
     Ticket "1" *-- "1" SLA : mide el tiempo
-    Ticket --> "1" IValidadorDeCierre : valida con
-    Ticket --> "0..*" IObservadorDeEstado : notifica a
-    Ticket --> "1" IServicioDeEvidencias : gestiona fotos con
+    Ticket "0..*" --> "1" IValidadorDeCierre : valida con
+    Ticket "1" --> "0..*" IObservadorDeEstado : notifica a
+    Ticket "0..*" --> "1" IServicioDeEvidencias : gestiona fotos con
     
     IValidadorDeCierre <|.. ValidadorAdministrador
     IValidadorDeCierre <|.. ValidadorEmisor
